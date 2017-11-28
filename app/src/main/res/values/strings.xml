@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Done Timer</string>
+    <string name="task_label">Task</string>
+    <string name="work_label">Work Session</string>
+    <string name="short_break">Short Break</string>
+    <string name="long_break">Long Break</string>
+    <string name="Start_Button">Start</string>
+    <string name="Stop_Button">Stop</string>
+    <string name="Reset_Button">Reset</string>
+</resources>
