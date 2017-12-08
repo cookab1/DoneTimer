@@ -35,63 +35,61 @@ public class DoneListFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
-    private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class JobHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mTitleTextView;
-        private TextView mDateTextView;
+        private TextView mTimeTextView;
         private ImageView mSolvedImageView;
-        private Crime mCrime;
+        private Job mJob;
 
-        public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_crime, parent, false));
+        public JobHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.list_item, parent, false));
             itemView.setOnClickListener(this);
 
-            mTitleTextView = itemView.findViewById(R.id.crime_title);
-            mDateTextView = itemView.findViewById(R.id.crime_date);
-            mSolvedImageView = itemView.findViewById(R.id.crime_solved);
+            mTitleTextView = itemView.findViewById(R.id.task_title);
+            mTimeTextView = itemView.findViewById(R.id.task_time);
+            mSolvedImageView = itemView.findViewById(R.id.task_progress);
         }
 
-        public void bind(Crime crime) {
-            mCrime = crime;
-            mTitleTextView.setText(mCrime.getTitle());
-            String dateFormat = "EEE, MMM dd";
-            String dateString = DateFormat.format(dateFormat, mCrime.getDate()).toString();
-            mDateTextView.setText(dateString);
-            mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.GONE);
+        public void bind(Job job) {
+            mJob = job;
+            mTitleTextView.setText(mJob.getName());
+            mTimeTextView.setText("00:00");
+            mSolvedImageView.setVisibility(job.isFinished() ? View.VISIBLE : View.GONE);
         }
 
         @Override
         public void onClick(View view) {
-            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
+            Intent intent = DonePagerActivity.newIntent(getActivity(), mJob.getName());
             startActivity(intent);
         }
     }
 
-    private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
-        private List<Crime> mCrimes;
+    private class CrimeAdapter extends RecyclerView.Adapter<JobHolder> {
+        private List<Job> mJobs;
 
-        public CrimeAdapter(List<Crime> crimes) {
-            mCrimes = crimes;
+        public CrimeAdapter(List<Job> crimes) {
+            mJobs = crimes;
         }
 
         @Override
-        public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public JobHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new CrimeHolder(layoutInflater, parent);
+            return new JobHolder(layoutInflater, parent);
         }
 
         @Override
-        public void onBindViewHolder(CrimeHolder holder, int position) {
-            Crime crime = mCrimes.get(position);
-            holder.bind(crime);
+        public void onBindViewHolder(JobHolder holder, int position) {
+            Job job = mJobs.get(position);
+            holder.bind(job);
         }
 
         @Override
         public int getItemCount() {
-            return mCrimes.size();
+            return mJobs.size();
         }
 
-        public void setCrimes(List<Crime> crimes) {
-            mCrimes = crimes;
+        public void setCrimes(List<Job> crimes) {
+            mJobs = crimes;
         }
     }
 
@@ -138,7 +136,7 @@ public class DoneListFragment extends Fragment {
     //@Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
-            case R.id.new_crime:
+            case R.id.new_job:
                 Crime crime = new Crime();
                 CrimeLab.get(getActivity()).addCrime(crime);
                 Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());

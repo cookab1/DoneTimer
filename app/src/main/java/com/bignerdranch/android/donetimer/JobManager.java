@@ -1,9 +1,7 @@
 package com.bignerdranch.android.donetimer;
 
-import android.content.ContentValues;
 import android.content.Context;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -35,30 +33,30 @@ public class JobManager {
     }
 
     //returns the job that is being looked for by the name
-    public Job getJob(String name) {
+    public Job getJob(UUID id) {
         Job job = null;
         for(int i = 0; i < jobs.size(); i++) {
-            if(jobs.get(i).getName().equals(name)) {
+            if(jobs.get(i).getId() == id) {
                 job = jobs.get(i);
             }
         }
         if(job == null) {
-            System.out.println("Job not found in the jobs ArrayList.\nPlease ender a valid job name.");
+            System.out.println("Job not found in the jobs ArrayList.\nPlease enter a valid job name.");
         }
         return job;
     }
 
     //This function updates the specified job (name) in the jobs ArrayList.
-    public void updateJob(String name, Job newJob) {
-        int index = getIndex(name);
+    public void updateJob(UUID id, Job newJob) {
+        int index = getIndex(id);
 
         jobs.set(index, newJob);
     }
 
-    private int getIndex(String name) {
+    private int getIndex(UUID id) {
         int index = -1;
         for(int i = 0; i < jobs.size(); i++) {
-            if(jobs.get(i).getName().equals(name)) {
+            if(jobs.get(i).getId() == id) {
                 index = i;
             }
         }
