@@ -18,7 +18,7 @@ import java.util.UUID;
 
 public class DonePagerActivity extends AppCompatActivity {
     private static final String EXTRA_JOB_ID =
-            "com.bignerdranch.android.criminalintent.crime_id";
+            "com.bignerdranch.android.donetimer.job_id";
 
     private ViewPager mViewPager;
     private List<Job> mJob;
