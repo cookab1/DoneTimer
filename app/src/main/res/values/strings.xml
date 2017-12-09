@@ -7,4 +7,8 @@
     <string name="Start_Button">Start</string>
     <string name="Stop_Button">Stop</string>
     <string name="Reset_Button">Reset</string>
+    <string name="new_task">New Task</string>
+    <string name="show_subtitle">Show Subtitles</string>
+    <string name="hide_subtitle">Hide Subtitles</string>
+    <string name="subtitle_format">%1$d Tasks</string>
 </resources>
