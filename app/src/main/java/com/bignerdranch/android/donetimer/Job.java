@@ -60,4 +60,8 @@ public class Job {
     public ArrayList<String> getLog() {
         return mLog;
     }
+
+    public void setLog(ArrayList<String> log) {
+        mLog = log;
+    }
 }
