@@ -43,9 +43,9 @@ public class DoneTimerFragment extends Fragment {
     public int time;
 
 
-    public static DoneTimerFragment newInstance(String jobName) {
+    public static DoneTimerFragment newInstance(UUID jobID) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_JOB_ID, jobName);
+        args.putSerializable(ARG_JOB_ID, jobID);
 
         DoneTimerFragment fragment = new DoneTimerFragment();
         fragment.setArguments(args);
@@ -55,8 +55,8 @@ public class DoneTimerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UUID crimeId = (UUID) getArguments().getSerializable(ARG_JOB_ID);
-        mJob = JobManager.get(getActivity()).getJob(crimeId);
+        UUID jobId = (UUID) getArguments().getSerializable(ARG_JOB_ID);
+        mJob = JobManager.get(getActivity()).getJob(jobId);
     }
 
     @Override

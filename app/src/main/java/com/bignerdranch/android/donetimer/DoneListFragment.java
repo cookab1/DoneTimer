@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -24,8 +25,8 @@ import java.util.List;
 public class DoneListFragment extends Fragment {
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
 
-    private RecyclerView mCrimeRecyclerView;
-    private CrimeAdapter mAdapter;
+    private RecyclerView mJobRecyclerView;
+    private JobAdapter mAdapter;
     private boolean mSubtitleVisible;
 
     @Override
@@ -38,6 +39,7 @@ public class DoneListFragment extends Fragment {
         private TextView mTitleTextView;
         private TextView mTimeTextView;
         private ImageView mSolvedImageView;
+        private ImageView mSelectImage;
         private Job mJob;
 
         public JobHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -47,6 +49,7 @@ public class DoneListFragment extends Fragment {
             mTitleTextView = itemView.findViewById(R.id.task_title);
             mTimeTextView = itemView.findViewById(R.id.task_time);
             mSolvedImageView = itemView.findViewById(R.id.task_progress);
+            mSelectImage = itemView.findViewById(R.id.select_image);
         }
 
         public void bind(Job job) {
@@ -54,20 +57,25 @@ public class DoneListFragment extends Fragment {
             mTitleTextView.setText(mJob.getName());
             mTimeTextView.setText("00:00");
             mSolvedImageView.setVisibility(job.isFinished() ? View.VISIBLE : View.GONE);
+            mSelectImage.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void onClick(View view) {
+            Toast.makeText(getActivity(),
+                    mJob.getName() + " clicked!", Toast.LENGTH_SHORT)
+                    .show();
+            //Intent intent = DoneActivity.newIntent(getActivity(), mJob.getId());
             Intent intent = DonePagerActivity.newIntent(getActivity(), mJob.getId());
             startActivity(intent);
         }
     }
 
-    private class CrimeAdapter extends RecyclerView.Adapter<JobHolder> {
+    private class JobAdapter extends RecyclerView.Adapter<JobHolder> {
         private List<Job> mJobs;
 
-        public CrimeAdapter(List<Job> crimes) {
-            mJobs = crimes;
+        public JobAdapter(List<Job> jobs) {
+            mJobs = jobs;
         }
 
         @Override
@@ -96,9 +104,9 @@ public class DoneListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.item_list, container, false);
 
-        mCrimeRecyclerView = view
+        mJobRecyclerView = view
                 .findViewById(R.id.task_recycler_view);
-        mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mJobRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         if (savedInstanceState != null)
             mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
@@ -153,8 +161,8 @@ public class DoneListFragment extends Fragment {
 
     private void updateSubtitle() {
         JobManager jobManager = JobManager.get(getActivity());
-        int crimeCount = jobManager.getJobs().size();
-        String subtitle = getString(R.string.subtitle_format,  crimeCount);
+        int jobCount = jobManager.getJobs().size();
+        String subtitle = getString(R.string.subtitle_format,  jobCount);
 
         if(!mSubtitleVisible)
             subtitle = null;
@@ -168,8 +176,8 @@ public class DoneListFragment extends Fragment {
         List<Job> jobs = jobManager.getJobs();
 
         if (mAdapter == null) {
-            mAdapter = new CrimeAdapter(jobs);
-            mCrimeRecyclerView.setAdapter(mAdapter);
+            mAdapter = new JobAdapter(jobs);
+            mJobRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.setJobs(jobs);
             mAdapter.notifyDataSetChanged();

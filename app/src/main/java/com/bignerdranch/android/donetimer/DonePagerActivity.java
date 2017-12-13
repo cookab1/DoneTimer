@@ -23,9 +23,9 @@ public class DonePagerActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private List<Job> mJob;
 
-    public static Intent newIntent(Context packageContext, UUID crimeId) {
+    public static Intent newIntent(Context packageContext, UUID jobId) {
         Intent intent = new Intent(packageContext, DonePagerActivity.class);
-        intent.putExtra(EXTRA_JOB_ID, crimeId);
+        intent.putExtra(EXTRA_JOB_ID, jobId);
         return intent;
     }
 
@@ -34,7 +34,7 @@ public class DonePagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_done_pager);
 
-        UUID crimeId = (UUID) getIntent()
+        UUID jobId = (UUID) getIntent()
                 .getSerializableExtra(EXTRA_JOB_ID);
 
         mViewPager = (ViewPager) findViewById(R.id.job_view_pager);
@@ -46,7 +46,7 @@ public class DonePagerActivity extends AppCompatActivity {
             @Override
             public Fragment getItem(int position) {
                 Job job = mJob.get(position);
-                return DoneTimerFragment.newInstance(job.getName());
+                return DoneTimerFragment.newInstance(job.getId());
             }
 
             @Override
@@ -57,7 +57,7 @@ public class DonePagerActivity extends AppCompatActivity {
         });
 
         for (int i = 0; i < mJob.size(); i++) {
-            if (mJob.get(i).getName().equals(crimeId)) {
+            if (mJob.get(i).getName().equals(jobId)) {
                 mViewPager.setCurrentItem(i);
                 break;
             }

@@ -22,6 +22,13 @@ public class JobManager {
     }
     private JobManager () {
         jobs = new ArrayList<Job>();
+        for (int i = 0; i < 100; i++) {
+            Job job = new Job();
+            job.setName("Job #" + i);
+            if(i % 2 == 0)
+                job.finished();
+            jobs.add(job);
+        }
     }
 
     public void addJob(Job c) {
