@@ -145,10 +145,10 @@ public class DoneListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.new_job:
                 Job job = new Job();
-                JobManager.get(getActivity()).addJob(job);
-                Intent intent = DonePagerActivity.newIntent(getActivity(), job.getId());
-                startActivity(intent);
-                return true;
+            JobManager.get(getActivity()).addJob(job);
+            Intent intent = DonePagerActivity.newIntent(getActivity(), job.getId());
+            startActivity(intent);
+            return true;
             case R.id.show_subtitle:
                 mSubtitleVisible = !mSubtitleVisible;
                 getActivity().invalidateOptionsMenu();
