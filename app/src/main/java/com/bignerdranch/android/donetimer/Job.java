@@ -12,6 +12,7 @@ public class Job {
     private String mName;
     private boolean finished;
     private boolean started;
+    private long timeWorked; // in milliseconds
     private ArrayList<String> mLog;
 
     public Job() {
@@ -20,8 +21,10 @@ public class Job {
 
     public Job(UUID id) {
         mID = id;
+        mName = "";
         finished = false;
         started = false;
+        timeWorked = 0;
         mLog = new ArrayList<String>();
     }
 
@@ -63,5 +66,13 @@ public class Job {
 
     public void setLog(ArrayList<String> log) {
         mLog = log;
+    }
+
+    public long getTimeWorked() {
+        return timeWorked;
+    }
+
+    public void addTime(long time) {
+        timeWorked += time;
     }
 }

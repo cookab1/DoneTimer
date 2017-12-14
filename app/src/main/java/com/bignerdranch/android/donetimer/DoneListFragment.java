@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by cookab1 on 12/5/2017.
@@ -39,6 +40,7 @@ public class DoneListFragment extends Fragment {
         private TextView mTitleTextView;
         private TextView mTimeTextView;
         private ImageView mSolvedImageView;
+        private ImageView mPartiallyDone;
         private ImageView mSelectImage;
         private Job mJob;
 
@@ -49,14 +51,16 @@ public class DoneListFragment extends Fragment {
             mTitleTextView = itemView.findViewById(R.id.task_title);
             mTimeTextView = itemView.findViewById(R.id.task_time);
             mSolvedImageView = itemView.findViewById(R.id.task_progress);
+            mPartiallyDone = itemView.findViewById(R.id.partially_done);
             mSelectImage = itemView.findViewById(R.id.select_image);
         }
 
         public void bind(Job job) {
             mJob = job;
             mTitleTextView.setText(mJob.getName());
-            mTimeTextView.setText("00:00");
+            mTimeTextView.setText(formatTime(mJob.getTimeWorked()) + " worked");
             mSolvedImageView.setVisibility(job.isFinished() ? View.VISIBLE : View.GONE);
+            mPartiallyDone.setVisibility((job.isStarted() && !job.isFinished()) ? View.VISIBLE : View.GONE);
             mSelectImage.setVisibility(View.VISIBLE);
         }
 
@@ -65,8 +69,8 @@ public class DoneListFragment extends Fragment {
             Toast.makeText(getActivity(),
                     mJob.getName() + " clicked!", Toast.LENGTH_SHORT)
                     .show();
-            //Intent intent = DoneActivity.newIntent(getActivity(), mJob.getId());
             Intent intent = DonePagerActivity.newIntent(getActivity(), mJob.getId());
+            UUID id = mJob.getId();
             startActivity(intent);
         }
     }
@@ -145,18 +149,19 @@ public class DoneListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.new_job:
                 Job job = new Job();
-            JobManager.get(getActivity()).addJob(job);
-            Intent intent = DonePagerActivity.newIntent(getActivity(), job.getId());
-            startActivity(intent);
-            return true;
+                JobManager.get(getActivity()).addJob(job);
+                Intent intent = DonePagerActivity.newIntent(getActivity(), job.getId());
+                startActivity(intent);
+                break;
             case R.id.show_subtitle:
                 mSubtitleVisible = !mSubtitleVisible;
                 getActivity().invalidateOptionsMenu();
                 updateSubtitle();
-                return true;
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
+        return true;
     }
 
     private void updateSubtitle() {
@@ -184,6 +189,23 @@ public class DoneListFragment extends Fragment {
         }
 
         updateSubtitle();
+    }
+
+
+    private String formatTime(long time) {
+        String format = "";
+        long min = (time/1000) / 60;
+        long sec = (time/1000) % 60;
+        if (min < 10 || sec < 10)
+            if (min < 10 && sec < 10)
+                format = "0" + min + ":0" + sec;
+            else if(min < 10)
+                format = "0" + min + ":" + sec;
+            else
+                format = "" + min + ":0" + sec;
+        else
+            format = "" + min + ":" + sec;
+        return format;
     }
 
 }

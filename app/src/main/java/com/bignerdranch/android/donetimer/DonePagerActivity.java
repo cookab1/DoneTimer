@@ -21,7 +21,7 @@ public class DonePagerActivity extends AppCompatActivity {
             "com.bignerdranch.android.donetimer.job_id";
 
     private ViewPager mViewPager;
-    private List<Job> mJob;
+    private List<Job> mJobs;
 
     public static Intent newIntent(Context packageContext, UUID jobId) {
         Intent intent = new Intent(packageContext, DonePagerActivity.class);
@@ -39,25 +39,25 @@ public class DonePagerActivity extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.job_view_pager);
 
-        mJob = JobManager.get(this).getJobs();
+        mJobs = JobManager.get(this).getJobs();
         FragmentManager fragmentManager = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
 
             @Override
             public Fragment getItem(int position) {
-                Job job = mJob.get(position);
+                Job job = mJobs.get(position);
                 return DoneTimerFragment.newInstance(job.getId());
             }
 
             @Override
             public int getCount() {
-                return mJob.size();
+                return mJobs.size();
             }
 
         });
 
-        for (int i = 0; i < mJob.size(); i++) {
-            if (mJob.get(i).getName().equals(jobId)) {
+        for (int i = 0; i < mJobs.size(); i++) {
+            if (mJobs.get(i).getName().equals(jobId)) {
                 mViewPager.setCurrentItem(i);
                 break;
             }

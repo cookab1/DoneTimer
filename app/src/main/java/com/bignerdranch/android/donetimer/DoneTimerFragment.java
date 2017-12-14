@@ -14,8 +14,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.UUID;
 
 
@@ -66,7 +64,7 @@ public class DoneTimerFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        //JobManager.get(getActivity()).updateJob(mJob);
+        JobManager.get(getActivity()).updateJob(mJob);
     }
 
     private CountDownTimer Timer(final long time, final boolean work){
@@ -169,8 +167,9 @@ public class DoneTimerFragment extends Fragment {
             public void onClick(View v) {
                 if(timer != null)
                     timer.cancel();
-                if(time == MIN_25)
+                //if(time == MIN_25)
                     //ArrayList<String> log = mJob.getLog().add("Worked for " + formatTime(timeWorked));
+                mJob.addTime(timeWorked);
             }
         });
 

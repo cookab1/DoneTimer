@@ -22,6 +22,7 @@ public class JobManager {
     }
     private JobManager () {
         jobs = new ArrayList<Job>();
+        /*
         for (int i = 0; i < 100; i++) {
             Job job = new Job();
             job.setName("Job #" + i);
@@ -29,10 +30,11 @@ public class JobManager {
                 job.finished();
             jobs.add(job);
         }
+        */
     }
 
-    public void addJob(Job c) {
-        jobs.add(c);
+    public void addJob(Job job) {
+        jobs.add(job);
     }
 
     public List<Job> getJobs() {
@@ -54,8 +56,8 @@ public class JobManager {
     }
 
     //This function updates the specified job (name) in the jobs ArrayList.
-    public void updateJob(UUID id, Job newJob) {
-        int index = getIndex(id);
+    public void updateJob(Job newJob) {
+        int index = getIndex(newJob.getId());
 
         jobs.set(index, newJob);
     }

@@ -7,7 +7,7 @@
     <EditText
         android:id="@+id/task_title"
         android:layout_width="match_parent"
-        android:layout_height="41dp"
+        android:layout_height="wrap_content"
         android:text="@string/task_label"
         android:textAlignment="center"
         android:textSize="24sp" />
